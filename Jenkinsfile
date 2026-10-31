@@ -1,11 +1,20 @@
 
+p
 pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Checkout GitHub') {
             steps {
                 echo 'GitHub source code connected successfully'
+            }
+        }
+
+        stage('Verify Build Environment') {
+            steps {
+                sh 'mvn -version'
+                sh 'docker --version'
+                echo 'Build environment verified successfully'
             }
         }
 
@@ -15,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
                 sh 'docker build -t classroom-issue-reporting:latest .'
             }
